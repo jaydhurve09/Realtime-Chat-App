@@ -3,7 +3,7 @@ import React from 'react'
 const SettingsPage = () => {
   return (
     <div>
-      Settings Page
+      <h2>Settings Page</h2>
     </div>
   )
 }

@@ -2,8 +2,8 @@ import React from 'react'
 
 const HomePage = () => {
   return (
-    <div>
-      Home Page
+    <div >
+      <h2>Home Page</h2>
     </div>
   )
 }

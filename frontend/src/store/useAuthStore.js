@@ -1,5 +1,10 @@
 import {create} from "zustand";
 import { axiosInstance } from "../lib/axios";
+// import axios from 'axios';
+
+// export const axiosInstance = axios.create({
+//     baseURL: 'http://localhost:5173', // Replace with your backend server port
+// });
 
 export const useAuthStore = create((set) => (
     {
@@ -17,15 +22,25 @@ export const useAuthStore = create((set) => (
                 set({authUser: res.data});
             } catch(error) {
                 console.log("Error in checkAuth: ", error);
-                
-                set({authUser: null});
+                set({ authUser: null });
             } finally {
                 set({isCheckingAuth: false});
             }
         },
 
         signup: async (data) => {
-            
+            set({ isSigningUp: true });
+            try {
+                const res = await axiosInstance.post("/auth/signup", data);
+                set({ authUser: res.data });
+                toast.success("Account created successfully");
+                get().connectSocket();
+            } catch (error) {
+                toast.error(error.response.data.message);
+            } finally {
+                set({ isSigningUp: false });
+            }
+            console.log("Signup response:", res);
         }
     }
 ))
