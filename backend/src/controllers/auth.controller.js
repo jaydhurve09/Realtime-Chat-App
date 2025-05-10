@@ -28,22 +28,21 @@ export const signup = async (req, res)=>{
         }); 
 
         if(newUser) {
-            //Generate JWT token here
-            generateToken(newUser._id, res);
             await newUser.save();
+            // Generate JWT token after saving
+            generateToken(newUser._id, res);
 
             res.status(201).json({ 
                 _id: newUser._id,
-                fullname: newUser.fullName,
+                fullName: newUser.fullName, // Fixed property name
                 email: newUser.email,
                 profilePic: newUser.profilePic,
             });
-
         } else {
             res.status(400).json({ message: "Invalid user data" })
         }
     } catch(error) {
-        console.log("Error in signup crontroller");
+        console.log("Error in signup controller:", error.message); // Added error message logging
         res.status(500).json({ message: "Internal Server Error" })
     }
 };
