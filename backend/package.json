@@ -4,7 +4,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "backend": "nodemon src/index.js"
+    "backend": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "author": "",
   "type": "module",
@@ -20,6 +21,7 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
+    "realtime-chat-app-nodejs": "file:..",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
