@@ -8,13 +8,27 @@ export const axiosInstance = axios.create({
   }
 });
 
+// Add request interceptor for debugging
+axiosInstance.interceptors.request.use(
+  config => {
+    console.log(`Making ${config.method.toUpperCase()} request to: ${config.baseURL}${config.url}`);
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+// Combined response interceptor
 axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  response => response,
+  error => {
+    console.error('Request failed:', error.config?.url, error.message, error.response?.status);
+    
     if (error.response?.status === 401) {
-      // Handle unauthorized access
       console.log('Unauthorized access, redirecting to login...');
     }
+    
     return Promise.reject(error);
   }
 );
