@@ -95,13 +95,38 @@ export const updateProfile = async (req, res)=> {
             return res.status(400).json({message: "Profile Picture is required"});
         }
 
-        const uploadResponse = await cloudinary.uploader.upload(profilePic);
-        const updatedUser = await User.findByIdAndUpdate(userId, {profilePic:uploadResponse.secure_url}, {new:true});
+        console.log("Attempting to upload image to Cloudinary...");
+        
+        // Add error handling for Cloudinary upload
+        let uploadResponse;
+        try {
+            // Check if the profilePic is a valid base64 string
+            if (!profilePic.startsWith('data:image')) {
+                return res.status(400).json({message: "Invalid image format. Must be a base64 encoded image."});
+            }
+            
+            uploadResponse = await cloudinary.uploader.upload(profilePic, {
+                folder: "chat-app-profiles",
+                width: 500,
+                crop: "scale"
+            });
+            
+            console.log("Image uploaded successfully to Cloudinary");
+        } catch (cloudinaryError) {
+            console.error("Cloudinary upload error details:", cloudinaryError);
+            return res.status(500).json({message: "Error uploading image to cloud storage"});
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId, 
+            {profilePic: uploadResponse.secure_url}, 
+            {new: true}
+        ).select("-password");
 
         res.status(200).json(updatedUser);
 
     } catch(error) {
-        console.log("Error in login update profile", error.message);
+        console.log("Error in update profile:", error.message);
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
