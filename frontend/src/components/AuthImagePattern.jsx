@@ -6,8 +6,10 @@ const AuthImagePattern = ({ title, subtitle }) => {
           {[...Array(9)].map((_, i) => (
             <div
               key={i}
-              className={`aspect-square rounded-2xl bg-primary/10 ${
-                i % 2 === 0 ? "animate-pulse" : ""
+              className={`aspect-square rounded-2xl ${
+                i % 2 === 0 
+                  ? "bg-primary/40 animate-pulse" 
+                  : "bg-primary/20"
               }`}
             />
           ))}
@@ -16,7 +18,7 @@ const AuthImagePattern = ({ title, subtitle }) => {
         <p className="text-base-content/60">{subtitle}</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AuthImagePattern
+export default AuthImagePattern;
