@@ -2,7 +2,7 @@
 
 A modern real-time chat application built with Node.js, React, Socket.IO, and MongoDB.
 
-![Live Link Chat App](screenshot.png)
+![Live Link Chat App](/frontend/public/Screenshot.png)
 
 ## Features
 
